@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: 7.2.0
-  dio: 4.0.0
+  dio: 4.0.1
   mockito: 5.0.16
   equatable: 2.0.3
   get_it: 7.2.0
