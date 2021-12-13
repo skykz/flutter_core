@@ -1,0 +1,44 @@
+stages:
+  - test # All jobs related for testing such as Unit Test
+  - sonarqube
+  - notify
+
+
+flutter_test: # Name of the lane
+  stage: test # type of stage
+  script:
+    - flutter test # Run Flutter unit test
+    - cd ./example
+    - flutter test # Run Flutter integration test
+  tags:
+    - mac-mini-test
+  only:
+    - merge_requests
+    - master
+
+sonarqube_master:
+  image: git-registry.infin-it.kz/docker-images/sonar-scanner:4.6.1
+  stage: sonarqube
+  before_script: # this is need for override before_script above
+    - echo $SONAR_URL
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  tags:
+    - mac-mini-test
+  script:
+    - sonar-scanner -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.projectKey=${CI_PROJECT_ID}_${CI_PROJECT_NAME} -Dsonar.projectName=${CI_PROJECT_NAME} -Dsonar.sources=lib -Dsonar.tests=test,example/test
+  only:
+    - master
+
+
+notify_error:
+  stage: notify
+  tags:
+    - java
+  script:
+    - sh .ci-notify.sh ❌
+  when: on_failure
+  only:
+    - merge_requests
+    - master
