@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_core/core/presentation/abstract/bloc/core_state.dart';
 
+import '../snackbar_custom_util.dart';
+
 /// отслеживаем состояние которые нужно выполнить в базовых случаях
 mixin ActionStateMixin {
   bool makeBuildWhenListener<S>(
@@ -89,8 +91,7 @@ mixin ActionStateMixin {
   ]) {
     if (errorListener == null) {
       if (showErrorInSnackBar) {
-        final snackBar = SnackBar(content: Text(error));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        showCustomSnackBar(context, error);
       }
       return;
     }
