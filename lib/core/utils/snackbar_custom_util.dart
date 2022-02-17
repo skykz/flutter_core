@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 void showCustomSnackBar(BuildContext context, String text) {
+  final _size = MediaQuery.of(context).size;
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
+        width: (kIsWeb) ? _size.width * 0.3 : double.infinity,
         duration: const Duration(seconds: 6),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
