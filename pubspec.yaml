@@ -9,9 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: 8.0.0
-  dio: 4.0.4
-  mockito: 5.0.16
+  flutter_bloc: 8.0.1
+  dio: 4.0.6
+  mockito: 5.1.0
   equatable: 2.0.3
   get_it: 7.2.0
   connectivity: 3.0.6
