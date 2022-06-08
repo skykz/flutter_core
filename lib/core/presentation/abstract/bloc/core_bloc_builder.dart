@@ -66,23 +66,22 @@ class CoreUpgradeBlocBuilder<C extends Cubit<S>, S extends CoreState>
   /// По умолчанию [true]
   final bool disableNetworkErrorMessages;
 
-  CoreUpgradeBlocBuilder({
-    @required this.builder,
-    this.errorBuilder,
-    this.notInternetConnectionBuilder,
-    this.applicationExeptionBuilder,
-    this.cubit,
-    this.buildWhen,
-    this.listenWhen,
-    this.listener,
-    this.error404Listener,
-    this.error500Listener,
-    this.errorListener,
-    this.redirectLoginListener,
-    this.noInternerConnectionListener,
-    this.applicationExeptionListener,
-    this.disableNetworkErrorMessages = true
-  });
+  CoreUpgradeBlocBuilder(
+      {@required this.builder,
+      this.errorBuilder,
+      this.notInternetConnectionBuilder,
+      this.applicationExeptionBuilder,
+      this.cubit,
+      this.buildWhen,
+      this.listenWhen,
+      this.listener,
+      this.error404Listener,
+      this.error500Listener,
+      this.errorListener,
+      this.redirectLoginListener,
+      this.noInternerConnectionListener,
+      this.applicationExeptionListener,
+      this.disableNetworkErrorMessages = true});
 
   @override
   _CoreUpgradeBlocBuilderState<C, S> createState() =>
@@ -91,17 +90,17 @@ class CoreUpgradeBlocBuilder<C extends Cubit<S>, S extends CoreState>
 
 class _CoreUpgradeBlocBuilderState<C extends Cubit<S>, S extends CoreState>
     extends State<CoreUpgradeBlocBuilder<C, S>> with ActionStateMixin {
-  Widget _widget, _builderWidget;
+  Widget _widget;
 
   @override
   Widget build(BuildContext context) => BlocConsumer<C, S>(
-    builder: (context, state) {
-      final currentWidget = _widget ?? widget.builder.call(context, state);
-      return currentWidget;
-    },
-    bloc: widget.cubit,
-    buildWhen: (prevState, currentState) {
-      return makeBuildWhenListener(prevState, currentState,
+        builder: (context, state) {
+          final currentWidget = _widget ?? widget.builder.call(context, state);
+          return currentWidget;
+        },
+        bloc: widget.cubit,
+        buildWhen: (prevState, currentState) {
+          return makeBuildWhenListener(prevState, currentState,
               (context, state) {
             _widget = null;
             return widget.buildWhen?.call(context, state);
@@ -113,20 +112,18 @@ class _CoreUpgradeBlocBuilderState<C extends Cubit<S>, S extends CoreState>
           }, () {
             _widget = widget.applicationExeptionBuilder(context, currentState);
           });
-    },
-    listenWhen: widget.listenWhen,
-    listener: (context, state) {
-      handleErrorListener(
-        context,
-        state,
-        widget.errorListener,
-        widget.redirectLoginListener,
-        widget.noInternerConnectionListener,
-        widget.applicationExeptionListener,
-        disableNetworkErrorMessages: widget.disableNetworkErrorMessages
+        },
+        listenWhen: widget.listenWhen,
+        listener: (context, state) {
+          handleErrorListener(
+              context,
+              state,
+              widget.errorListener,
+              widget.redirectLoginListener,
+              widget.noInternerConnectionListener,
+              widget.applicationExeptionListener,
+              disableNetworkErrorMessages: widget.disableNetworkErrorMessages);
+          widget.listener?.call(context, state);
+        },
       );
-      widget.listener?.call(context, state);
-    },
-  );
 }
-

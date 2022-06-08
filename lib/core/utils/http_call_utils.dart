@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:connectivity/connectivity.dart';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_core/core/abstarct/constant/core_common_contant.dart';
 import 'package:flutter_core/core/abstarct/constant/core_network_constant.dart';
@@ -103,7 +103,7 @@ HttpRequestException<String> _throwDefaultError(Exception exception) {
 }
 
 /// вызывает исключение при отсутсии интернета
-Future<HttpRequestException<String>> _makeThrowInternerConnection(
+Future<void> _makeThrowInternerConnection(
   bool isTest,
 ) async {
   if (isTest != true) {
@@ -118,11 +118,22 @@ Future<HttpRequestException<String>> _makeThrowInternerConnection(
   }
 }
 
+Future<bool> _checkInternet() async {
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      return Future.value(true);
+    }
+  } on SocketException catch (_) {
+    return Future.value(false);
+  }
+  return true;
+}
+
 /// проверка интернет соеденения
 Future<bool> _checkInternetConnection() async {
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  if (connectivityResult == ConnectivityResult.mobile ||
-      connectivityResult == ConnectivityResult.wifi) {
+  final _res = await _checkInternet();
+  if (_res) {
     return true;
   }
   return false;
