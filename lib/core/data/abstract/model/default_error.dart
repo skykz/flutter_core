@@ -1,9 +1,9 @@
 /// модель получения ошибок по умолчанию
-class Error {
+class DefaultError {
   String message;
 
-  Error(this.message);
+  DefaultError(this.message);
 
-  factory Error.fromJson(Map<String, dynamic> map) =>
-      Error(map['message'] ?? map['error'] ?? map['detail']);
+  factory DefaultError.fromJson(Map<String, dynamic> map) =>
+      DefaultError(map['message'] ?? map['error'] ?? map['detail']);
 }

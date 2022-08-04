@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_core/core/abstarct/constant/core_common_contant.dart';
 import 'package:flutter_core/core/abstarct/constant/core_network_constant.dart';
-import 'package:flutter_core/core/data/abstract/exception/exception.dart';
+import 'package:flutter_core/core/data/abstract/exception/http_exception.dart';
 import 'package:flutter_core/core/data/abstract/model/default_error.dart';
 
 /// функция для получения резултата
@@ -151,7 +151,9 @@ String _handleDioErrorType(DioError ex, [Map<String, dynamic> data]) {
         if (ex.message.contains(CoreNetworkConstant.socketException)) {
           return "Ошибка соеденения";
         }
-        return data != null ? Error.fromJson(data).message : "Unknown error";
+        return data != null
+            ? DefaultError.fromJson(data).message
+            : "Unknown error";
       }
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_core/core/data/abstract/exception/exception.dart';
+import 'package:flutter_core/core/data/abstract/exception/http_exception.dart';
 import 'package:flutter_core/core/utils/http_call_util.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

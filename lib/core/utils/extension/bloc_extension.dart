@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_core/core/data/abstract/exception/exception.dart';
+import 'package:flutter_core/core/data/abstract/exception/http_exception.dart';
 import 'package:flutter_core/core/presentation/abstract/bloc/core_state.dart';
 
 /// результат выполнения запроса успешного ответа
