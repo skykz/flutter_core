@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_core/core/data/abstract/exeption/exeption.dart';
+import 'package:flutter_core/core/data/abstract/exception/exception.dart';
 
 typedef CoreResultData<T> = void Function(T result);
 

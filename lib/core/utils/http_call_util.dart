@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_core/core/abstarct/constant/core_common_contant.dart';
 import 'package:flutter_core/core/abstarct/constant/core_network_constant.dart';
-import 'package:flutter_core/core/data/abstract/exeption/exeption.dart';
+import 'package:flutter_core/core/data/abstract/exception/exception.dart';
 import 'package:flutter_core/core/data/abstract/model/default_error.dart';
 
 /// функция для получения резултата
@@ -82,11 +82,8 @@ Future<T> safeApiCallWithError<T, V>(
   } catch (ex) {
     if (ex is DioError) {
       final data = ex.response?.data;
-      throw errorResponsePrinter.call(
-        data,
-        _handleDioErrorType(ex),
-        ex.response?.statusCode ?? CoreConstant.negative,
-      );
+      throw errorResponsePrinter.call(data, _handleDioErrorType(ex),
+          ex.response?.statusCode ?? CoreConstant.negative);
     }
 
     throw _throwDefaultError(ex);
@@ -110,7 +107,7 @@ Future<void> _makeThrowInternerConnection(
     final isInternerConnection = await _checkInternetConnection();
     if (!isInternerConnection) {
       throw HttpRequestException<String>(
-        "Нет интернет соеденения",
+        "No internet connection",
         CoreConstant.negative,
         HttpTypeError.notInternetConnection,
       );
@@ -154,7 +151,7 @@ String _handleDioErrorType(DioError ex, [Map<String, dynamic> data]) {
         if (ex.message.contains(CoreNetworkConstant.socketException)) {
           return "Ошибка соеденения";
         }
-        return data != null ? Error.fromJson(data).message : "Ошибка сервера";
+        return data != null ? Error.fromJson(data).message : "Unknown error";
       }
   }
 }

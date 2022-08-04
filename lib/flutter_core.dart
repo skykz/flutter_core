@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 
-/// test
+/// flutter core main
 class FlutterCore {
   static const MethodChannel _channel = const MethodChannel('flutter_core');
 
