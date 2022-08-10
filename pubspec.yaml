@@ -1,6 +1,6 @@
 name: flutter_core
 description: A new flutter plugin project.
-version: 0.0.2
+version: 1.0.7
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -9,13 +9,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.1
-  dio: ^4.0.6
-  mockito: ^5.2.0
-  equatable: ^2.0.3
-  get_it: ^7.2.0
-  intl: ^0.17.0
-  location: ^4.4.0
+  flutter_bloc: 8.0.1
+  dio: 4.0.6
+  mockito: 5.3.0
+  equatable: 2.0.3
+  get_it: 7.2.0
+  intl: 0.17.0
+  location: 4.4.0
 
 
 dev_dependencies:
