@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_core/core/abstarct/constant/core_common_contant.dart';
 import 'package:flutter_core/core/abstarct/constant/core_network_constant.dart';
@@ -104,37 +104,37 @@ Future<void> _makeThrowInternerConnection(
   bool isTest,
 ) async {
   if (isTest != true) {
-    final isInternerConnection = await _checkInternetConnection();
-    if (!isInternerConnection) {
-      throw HttpRequestException<String>(
-        "No internet connection",
-        CoreConstant.negative,
-        HttpTypeError.notInternetConnection,
-      );
-    }
+    // final isInternerConnection = await _checkInternetConnection();
+    // if (!isInternerConnection) {
+    //   throw HttpRequestException<String>(
+    //     "No internet connection",
+    //     CoreConstant.negative,
+    //     HttpTypeError.notInternetConnection,
+    //   );
+    // }
   }
 }
 
-Future<bool> _checkInternet() async {
-  try {
-    final result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      return Future.value(true);
-    }
-  } on SocketException catch (_) {
-    return Future.value(false);
-  }
-  return true;
-}
+// Future<bool> _checkInternet() async {
+//   try {
+//     final result = await InternetAddress.lookup('google.com');
+//     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+//       return Future.value(true);
+//     }
+//   } on SocketException catch (_) {
+//     return Future.value(false);
+//   }
+//   return true;
+// }
 
-/// проверка интернет соеденения
-Future<bool> _checkInternetConnection() async {
-  final _res = await _checkInternet();
-  if (_res) {
-    return true;
-  }
-  return false;
-}
+// /// проверка интернет соеденения
+// Future<bool> _checkInternetConnection() async {
+//   final _res = await _checkInternet();
+//   if (_res) {
+//     return true;
+//   }
+//   return false;
+// }
 
 /// обработчик ошибок по типу ошибко [Dio]
 /// [DioErrorType] ошибка
