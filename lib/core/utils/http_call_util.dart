@@ -140,7 +140,7 @@ Future<void> _makeThrowInternerConnection(
 /// [DioErrorType] ошибка
 String _handleDioErrorType(DioError ex, [Map<String, dynamic> data]) {
   switch (ex.type) {
-    case DioErrorType.connectTimeout:
+    case DioErrorType.connectionTimeout:
     case DioErrorType.sendTimeout:
     case DioErrorType.receiveTimeout:
       {
