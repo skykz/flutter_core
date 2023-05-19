@@ -3,12 +3,12 @@ import 'package:flutter_core/core/utils/mixins/request_worker_mixin.dart';
 
 import 'core_state.dart';
 
-abstract class CoreCubit extends Cubit<CoreState> with CoreRequestWorketMixin {
+abstract class CoreCubit extends Cubit<CoreState?> with CoreRequestWorketMixin {
   late List<CoreRequestWorketMixin> _useCaseLaunchers;
   CoreCubit(
     CoreState? state, {
     List<CoreRequestWorketMixin>? useCaseLaunchers,
-  }) : super(state!) {
+  }) : super(state) {
     _useCaseLaunchers = useCaseLaunchers!;
     _useCaseLaunchers.forEach((element) {
       element.showErrorByCodeCallback = (String errorMessage, int code) {
