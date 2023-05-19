@@ -6,9 +6,9 @@ import 'core_state.dart';
 abstract class CoreCubit extends Cubit<CoreState> with CoreRequestWorketMixin {
   late List<CoreRequestWorketMixin> _useCaseLaunchers;
   CoreCubit(
-    CoreState state, {
+    CoreState? state, {
     List<CoreRequestWorketMixin>? useCaseLaunchers,
-  }) : super(state) {
+  }) : super(state!) {
     _useCaseLaunchers = useCaseLaunchers!;
     _useCaseLaunchers.forEach((element) {
       element.showErrorByCodeCallback = (String errorMessage, int code) {
