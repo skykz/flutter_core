@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 /// show custom snackbar when it needed
-void showCustomSnackBar(BuildContext context, String text) {
-  final _size = MediaQuery.of(context).size;
+void showCustomSnackBar(BuildContext? context, String? text) {
+  final _size = MediaQuery.of(context!).size;
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(

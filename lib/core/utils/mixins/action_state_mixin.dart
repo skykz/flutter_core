@@ -11,7 +11,7 @@ mixin ActionStateMixin {
   bool makeBuildWhenListener<S>(
     S prevState,
     S currentState,
-    BlocBuilderCondition<S> buildWhen,
+    BlocBuilderCondition<S>? buildWhen,
     Function() noInternetConnectionListener,
     Function() primaryErrorListener,
     Function() applicationExtensionListener,
@@ -26,7 +26,7 @@ mixin ActionStateMixin {
 
     if (currentState is CoreErrorExeptionState &&
         prevState is CoreLoadingState) {
-      applicationExtensionListener?.call();
+      applicationExtensionListener.call();
       return true;
     }
 
@@ -84,9 +84,9 @@ mixin ActionStateMixin {
   /// вывод ошибок, обработка происходит разово (показ snackbar или переход на другую страницу)
   /// [bool showErrorInSnackBar] - показывать ошибку в SnackBar или нет
   void _makeShowError(
-    BuildContext context,
-    String error,
-    Function errorListener, [
+    BuildContext? context,
+    String? error,
+    Function? errorListener, [
     bool showErrorInSnackBar = true,
   ]) {
     if (errorListener == null) {
@@ -97,7 +97,7 @@ mixin ActionStateMixin {
     }
 
     if (errorListener is Function(String)) {
-      errorListener.call(error);
+      errorListener.call(error!);
     } else {
       errorListener.call();
     }
@@ -113,7 +113,7 @@ mixin ActionStateMixin {
       case HttpStatus.unauthorized:
       case HttpStatus.forbidden:
         {
-          redirectLogin?.call();
+          redirectLogin.call();
           return;
         }
     }

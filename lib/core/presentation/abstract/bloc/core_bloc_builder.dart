@@ -7,25 +7,25 @@ import 'package:flutter_core/core/utils/mixins/action_state_mixin.dart';
 /// Содержит в себе только bulder
 class CoreUpgradeBlocBuilder<C extends Cubit<S>, S extends CoreState>
     extends StatefulWidget {
-  final Function(String error, int code) error404Listener;
-  final Function(String error, int code) error500Listener;
-  final Function(String error) errorListener;
-  final Function() noInternerConnectionListener;
-  final Function() applicationExeptionListener;
-  final Function redirectLoginListener;
+  final Function(String? error, int? code)? error404Listener;
+  final Function(String? error, int? code)? error500Listener;
+  final Function(String? error)? errorListener;
+  final Function()? noInternerConnectionListener;
+  final Function()? applicationExeptionListener;
+  final Function()? redirectLoginListener;
 
   /// Функция [builder], которая будет вызываться при каждой сборке виджета.
   /// [Builder] принимает `BuildContext` и текущее` состояние` и
   /// должен возвращать виджет.
   /// Это аналог функции [builder] в [StreamBuilder].
-  final BlocWidgetBuilder<S> builder;
+  final BlocWidgetBuilder<S>? builder;
 
   /// Функция [builder], которая будет вызываться при первом перестроении в случае ошибки,
   /// для того чтобы пользователь мог, позвторно сделать запрос
   /// [Builder] принимает `BuildContext` и текущее` состояние` и
   /// должен возвращать виджет.
   /// Это аналог функции [builder] в [StreamBuilder].
-  final BlocWidgetBuilder<S> errorBuilder;
+  final BlocWidgetBuilder<S>? errorBuilder;
 
   /// Функция [builder], которая будет вызываться в случае отсутвия интернета при первичном запуске,
   /// для того чтобы пользователь мог, позвторно сделать запрос,
@@ -33,7 +33,7 @@ class CoreUpgradeBlocBuilder<C extends Cubit<S>, S extends CoreState>
   /// [Builder] принимает `BuildContext` и текущее` состояние` и
   /// должен возвращать виджет.
   /// Это аналог функции [builder] в [StreamBuilder].
-  final BlocWidgetBuilder<S> notInternetConnectionBuilder;
+  final BlocWidgetBuilder<Object?>? notInternetConnectionBuilder;
 
   /// Функция [builder], которая будет вызываться в случае сбоя в приложении при первичном запуске,
   /// для того чтобы пользователь мог, позвторно сделать запрос,
@@ -41,26 +41,26 @@ class CoreUpgradeBlocBuilder<C extends Cubit<S>, S extends CoreState>
   /// [Builder] принимает `BuildContext` и текущее` состояние` и
   /// должен возвращать виджет.
   /// Это аналог функции [builder] в [StreamBuilder].
-  final BlocWidgetBuilder<S> applicationExeptionBuilder;
+  final BlocWidgetBuilder<S>? applicationExeptionBuilder;
 
   /// Принимает `BuildContext` вместе с [cubit]` state`
   /// и отвечает за выполнение в ответ на изменения состояния.
-  final BlocWidgetListener<S> listener;
+  final BlocWidgetListener<S>? listener;
 
   /// [Cubit], с которым будет взаимодействовать [BlocConsumer].
   /// Если не указано, [BlocConsumer] автоматически выполнит поиск, используя
   /// `BlocProvider` и текущий` BuildContext`.
-  final C cubit;
+  final C? cubit;
 
   /// Принимает предыдущее `состояние` и текущее` состояние` и отвечает за
   /// возвращаем [bool], который определяет, запускать или нет
   /// [строитель] с текущим `состоянием`.
-  final BlocBuilderCondition<S> buildWhen;
+  final BlocBuilderCondition<Object>? buildWhen;
 
   /// Принимает предыдущее `состояние` и текущее` состояние` и отвечает за
   /// возвращаем [bool], который определяет, вызывать ли [listener] из
   /// [BlocConsumer] с текущим `состоянием`.
-  final BlocListenerCondition<S> listenWhen;
+  final BlocListenerCondition<S>? listenWhen;
 
   /// Если true то пользователю не показываем toast про отсутствие интернета
   /// По умолчанию [true]
@@ -90,27 +90,27 @@ class CoreUpgradeBlocBuilder<C extends Cubit<S>, S extends CoreState>
 
 class _CoreUpgradeBlocBuilderState<C extends Cubit<S>, S extends CoreState>
     extends State<CoreUpgradeBlocBuilder<C, S>> with ActionStateMixin {
-  Widget _widget;
+  Widget? _widget;
 
   @override
   Widget build(BuildContext context) => BlocConsumer<C, S>(
         builder: (context, state) {
-          final currentWidget = _widget ?? widget.builder.call(context, state);
-          return currentWidget;
+          final currentWidget = _widget ?? widget.builder?.call(context, state);
+          return currentWidget!;
         },
         bloc: widget.cubit,
         buildWhen: (prevState, currentState) {
           return makeBuildWhenListener(prevState, currentState,
               (context, state) {
             _widget = null;
-            return widget.buildWhen?.call(context, state);
+            return widget.buildWhen!.call(context!, state!);
           }, () {
             _widget =
-                widget.notInternetConnectionBuilder(context, currentState);
+                widget.notInternetConnectionBuilder!(context, currentState);
           }, () {
-            _widget = widget.errorBuilder(context, currentState);
+            _widget = widget.errorBuilder!(context, currentState);
           }, () {
-            _widget = widget.applicationExeptionBuilder(context, currentState);
+            _widget = widget.applicationExeptionBuilder!(context, currentState);
           });
         },
         listenWhen: widget.listenWhen,
@@ -118,10 +118,10 @@ class _CoreUpgradeBlocBuilderState<C extends Cubit<S>, S extends CoreState>
           handleErrorListener(
               context,
               state,
-              widget.errorListener,
-              widget.redirectLoginListener,
-              widget.noInternerConnectionListener,
-              widget.applicationExeptionListener,
+              widget.errorListener!,
+              widget.redirectLoginListener!,
+              widget.noInternerConnectionListener!,
+              widget.applicationExeptionListener!,
               disableNetworkErrorMessages: widget.disableNetworkErrorMessages);
           widget.listener?.call(context, state);
         },

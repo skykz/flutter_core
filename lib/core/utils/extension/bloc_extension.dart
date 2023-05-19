@@ -99,19 +99,19 @@ extension LaunchRequestCubitExtension on Cubit {
   /// [resultState] callback успешном результате
   /// [errorState]  callback при ошибке
   @deprecated
-  void launchWithError<T, V>(Future<T> request, LoadingState loading,
-      ResultState<T> resultState, ResultState<V> errorState) async {
+  void launchWithError<T, V>(Future<T>? request, LoadingState loading,
+      ResultState<T>? resultState, ResultState<V>? errorState) async {
     emit(loading.call(true));
     try {
       final result = await request;
       emit(loading.call(false));
-      emit(resultState.call(result));
+      emit(resultState?.call(result!));
     } catch (ex) {
       emit(loading.call(false));
       if (ex is V) {
-        emit(errorState.call(ex));
+        emit(errorState?.call(ex as V));
       } else {
-        emit(errorState.call(ex));
+        emit(errorState?.call(ex as V));
       }
     }
   }

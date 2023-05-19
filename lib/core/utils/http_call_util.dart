@@ -20,9 +20,9 @@ typedef ErrorResponsePrinter<T> = HttpRequestException<T> Function(
 Future<T> safeApiCall<T>(
   Future<Response> response,
   ResponseJson<T> jsonCall, {
-  bool isTest,
+  bool? isTest = false,
 }) async {
-  await _makeThrowInternerConnection(isTest);
+  await _makeThrowInternerConnection(isTest!);
   try {
     final result = await response;
     final json = result.data;
@@ -37,7 +37,7 @@ Future<T> safeApiCall<T>(
         HttpTypeError.http,
       );
     }
-    throw _throwDefaultError(ex);
+    throw _throwDefaultError(ex.toString());
   }
 }
 
@@ -45,9 +45,9 @@ Future<T> safeApiCall<T>(
 /// [response] - ответ от сервера
 Future<void> safeApiCallVoid(
   Future<Response> response, {
-  bool isTest,
+  bool? isTest = false,
 }) async {
-  await _makeThrowInternerConnection(isTest);
+  await _makeThrowInternerConnection(isTest!);
   try {
     await response;
     return;
@@ -61,7 +61,7 @@ Future<void> safeApiCallVoid(
         HttpTypeError.http,
       );
     }
-    throw _throwDefaultError(ex);
+    throw _throwDefaultError(ex.toString());
   }
 }
 
@@ -72,9 +72,9 @@ Future<T> safeApiCallWithError<T, V>(
   Future<Response> response,
   ResponseJson<T> jsonCall,
   ErrorResponsePrinter<V> errorResponsePrinter, {
-  bool isTest,
+  bool? isTest = false,
 }) async {
-  await _makeThrowInternerConnection(isTest);
+  await _makeThrowInternerConnection(isTest!);
   try {
     final result = await response;
     final json = result.data;
@@ -86,14 +86,14 @@ Future<T> safeApiCallWithError<T, V>(
           ex.response?.statusCode ?? CoreConstant.negative);
     }
 
-    throw _throwDefaultError(ex);
+    throw _throwDefaultError(ex.toString());
   }
 }
 
 /// выкидывает исключение в виде ошибки по умалчанию
-HttpRequestException<String> _throwDefaultError(Exception exception) {
+HttpRequestException<String> _throwDefaultError(String exception) {
   return HttpRequestException<String>(
-    exception.toString(),
+    exception,
     CoreConstant.negative,
     HttpTypeError.unknown,
   );
@@ -138,7 +138,7 @@ Future<void> _makeThrowInternerConnection(
 
 /// обработчик ошибок по типу ошибко [Dio]
 /// [DioErrorType] ошибка
-String _handleDioErrorType(DioError ex, [Map<String, dynamic> data]) {
+String _handleDioErrorType(DioError ex, [Map<String, dynamic>? data]) {
   switch (ex.type) {
     case DioErrorType.connectionTimeout:
     case DioErrorType.sendTimeout:
@@ -148,12 +148,12 @@ String _handleDioErrorType(DioError ex, [Map<String, dynamic> data]) {
       }
     default:
       {
-        if (ex.message.contains(CoreNetworkConstant.socketException)) {
+        if (ex.message!.contains(CoreNetworkConstant.socketException)) {
           return "Ошибка соеденения";
         }
         return data != null
             ? DefaultError.fromJson(data).message
-            : "Unknown error";
+            : "Неизвестная ошибка";
       }
   }
 }

@@ -6,24 +6,24 @@ import 'package:location/location.dart';
 /// [resultPermission] - резултат
 /// [awaiting] - действие во время ожидания принятия решения при диалоге
 void requestPermission({
-  Function(bool isGrantedPermission, LocationData locationData)
+  Function(bool? isGrantedPermission, LocationData? locationData)?
       resultPermission,
-  Function() awaiting,
+  Function()? awaiting,
 }) async {
   Location location = new Location();
-  LocationData locationData;
+  LocationData? locationData;
   PermissionStatus hasPermission;
 
-  if (awaiting != null) awaiting?.call();
-  hasPermission = await location?.hasPermission();
-  if (hasPermission == PermissionStatus?.denied) {
-    hasPermission = await location?.requestPermission();
+  if (awaiting != null) awaiting.call();
+  hasPermission = await location.hasPermission();
+  if (hasPermission == PermissionStatus.denied) {
+    hasPermission = await location.requestPermission();
   }
-  if (hasPermission != PermissionStatus?.denied) {
-    locationData = await location?.getLocation();
+  if (hasPermission != PermissionStatus.denied) {
+    locationData = await location.getLocation();
   }
-  resultPermission.call(
-    hasPermission == PermissionStatus?.granted,
+  resultPermission?.call(
+    hasPermission == PermissionStatus.granted,
     locationData,
   );
 }

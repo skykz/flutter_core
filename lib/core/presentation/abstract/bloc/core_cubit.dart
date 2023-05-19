@@ -4,25 +4,25 @@ import 'package:flutter_core/core/utils/mixins/request_worker_mixin.dart';
 import 'core_state.dart';
 
 abstract class CoreCubit extends Cubit<CoreState> with CoreRequestWorketMixin {
-  List<CoreRequestWorketMixin> _useCaseLaunchers;
+  late List<CoreRequestWorketMixin> _useCaseLaunchers;
   CoreCubit(
     CoreState state, {
-    List<CoreRequestWorketMixin> useCaseLaunchers,
+    List<CoreRequestWorketMixin>? useCaseLaunchers,
   }) : super(state) {
-    _useCaseLaunchers = useCaseLaunchers;
-    _useCaseLaunchers?.forEach((element) {
-      element?.showErrorByCodeCallback = (String errorMessage, int code) {
+    _useCaseLaunchers = useCaseLaunchers!;
+    _useCaseLaunchers.forEach((element) {
+      element.showErrorByCodeCallback = (String errorMessage, int code) {
         emit(CoreErrorByCodeState(errorMessage, code));
       };
 
-      element?.showErrorCallback = (error) {
+      element.showErrorCallback = (error) {
         emit(CoreErrorMessage(error));
       };
 
-      element?.showErrorInternetConnection = (error) {
+      element.showErrorInternetConnection = (error) {
         emit(CoreNotInternerConnectionState(error));
       };
-      element?.showErrorExeptionCallback = (error) {
+      element.showErrorExeptionCallback = (error) {
         emit(CoreNotInternerConnectionState(error));
       };
     });
@@ -46,7 +46,7 @@ abstract class CoreCubit extends Cubit<CoreState> with CoreRequestWorketMixin {
 
   @override
   Future<void> close() {
-    _useCaseLaunchers?.forEach((element) {
+    _useCaseLaunchers.forEach((element) {
       element.clear();
     });
     clear();
