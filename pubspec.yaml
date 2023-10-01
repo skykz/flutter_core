@@ -9,13 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: 8.1.2
-  dio: 5.1.1
+  flutter_bloc: 8.1.3
+  dio: 5.3.3
   # mockito: 5.4.0
   equatable: 2.0.5
-  get_it: 7.2.0
-  intl: 0.18.0
-  location: 4.4.0
+  get_it: 7.6.4
+  intl: 0.18.1
 
 
 dev_dependencies:
