@@ -5,11 +5,11 @@ import 'package:flutter_core/core/data/abstract/exception/http_exception.dart';
 import 'package:flutter_core/core/presentation/abstract/bloc/core_state.dart';
 
 /// результат выполнения запроса успешного ответа
-@deprecated
+@Deprecated('message')
 typedef ResultState<T> = CoreState Function(T result);
 
 /// результат выполнения загрузчика (лоадера)
-@deprecated
+@Deprecated('message')
 typedef LoadingState = CoreState Function(bool isLoading);
 
 /// расширение работает с [Bloc]
@@ -20,7 +20,7 @@ extension LaunchRequestExtension on Bloc {
   /// [loading] callback функция информирующая старт загрузки
   /// [resultState] callback успешном результате
   /// [errorState]  callback при ошибке
-  @deprecated
+  @Deprecated('message')
   Stream<CoreState> launch<T>(Future<T> request, LoadingState loading,
       ResultState<T> resultState, ResultState<String> errorState) async* {
     yield loading.call(true);
@@ -44,7 +44,7 @@ extension LaunchRequestExtension on Bloc {
   /// [loading] callback функция информирующая старт загрузки
   /// [resultState] callback успешном результате
   /// [errorState]  callback при ошибке
-  @deprecated
+  @Deprecated('message')
   Stream<CoreState> launchWithError<T, V>(
       Future<T> request,
       LoadingState loading,
@@ -74,7 +74,7 @@ extension LaunchRequestCubitExtension on Cubit {
   /// [loading] callback функция информирующая старт загрузки
   /// [resultState] callback успешном результате
   /// [errorState]  callback при ошибке
-  @deprecated
+  @Deprecated('message')
   void launch<T>(Future<T> request, LoadingState loading,
       ResultState<T> resultState, ResultState<String> errorState) async {
     emit(loading.call(true));
@@ -98,14 +98,14 @@ extension LaunchRequestCubitExtension on Cubit {
   /// [loading] callback функция информирующая старт загрузки
   /// [resultState] callback успешном результате
   /// [errorState]  callback при ошибке
-  @deprecated
+  @Deprecated('message')
   void launchWithError<T, V>(Future<T>? request, LoadingState loading,
       ResultState<T>? resultState, ResultState<V>? errorState) async {
     emit(loading.call(true));
     try {
-      final result = await request;
+      final result = await request!;
       emit(loading.call(false));
-      emit(resultState?.call(result!));
+      emit(resultState?.call(result));
     } catch (ex) {
       emit(loading.call(false));
       if (ex is V) {

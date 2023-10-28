@@ -11,7 +11,7 @@ mixin CoreRequestWorketMixin {
   /// Timer для запроса
   Timer? _timer;
 
-  String _defaultError = "Произошла ошибка";
+  final String _defaultError = "Произошла ошибка";
 
   /// показываем ошибку в виде [String]
   /// [errorMessage] сообщение об ошибке
@@ -47,7 +47,7 @@ mixin CoreRequestWorketMixin {
     try {
       final result = await request;
       loading?.call(false);
-      resultData?.call(result!);
+      resultData?.call(result as T);
     } on HttpRequestException catch (ex) {
       loading?.call(false);
       _makeHttpExeption(ex, (error) {
@@ -82,7 +82,7 @@ mixin CoreRequestWorketMixin {
       try {
         final result = await request;
         loading?.call(false);
-        resultData?.call(result!);
+        resultData?.call(result as T);
       } on HttpRequestException catch (ex) {
         loading?.call(false);
         _makeHttpExeption(
@@ -112,7 +112,7 @@ mixin CoreRequestWorketMixin {
     try {
       final result = await request;
       loading?.call(false);
-      resultData?.call(result!);
+      resultData?.call(result as T);
     } on HttpRequestException catch (ex) {
       loading?.call(false);
       _makeHttpExeption(
@@ -144,7 +144,7 @@ mixin CoreRequestWorketMixin {
       try {
         final result = await request;
         loading?.call(false);
-        resultData?.call(result!);
+        resultData?.call(result as T);
       } on HttpRequestException catch (ex) {
         loading?.call(false);
         _makeHttpExeption(ex, (error) {
@@ -196,6 +196,5 @@ mixin CoreRequestWorketMixin {
   /// отображает различные исключения
   void _makeExeption(ex) {
     showErrorExeptionCallback?.call(_defaultError);
-    print(ex);
   }
 }

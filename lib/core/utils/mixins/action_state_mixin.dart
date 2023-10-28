@@ -51,10 +51,10 @@ mixin ActionStateMixin {
   void handleErrorListener(
       context,
       state,
-      Function(String error) errorListener,
-      Function() redirectLoginListener,
-      Function() notInternetConnectionListener,
-      Function() applicationExeptionListener,
+      Function(String error)? errorListener,
+      Function()? redirectLoginListener,
+      Function()? notInternetConnectionListener,
+      Function()? applicationExeptionListener,
       {bool disableNetworkErrorMessages = true}) {
     if (state is CoreErrorByCodeState) {
       _handleErrorByCode(
@@ -105,15 +105,15 @@ mixin ActionStateMixin {
 
   /// отслеживаем ошибку по коду
   void _handleErrorByCode(
-    BuildContext context,
-    CoreErrorByCodeState state,
-    Function() redirectLogin,
+    BuildContext? context,
+    CoreErrorByCodeState? state,
+    Function()? redirectLogin,
   ) {
-    switch (state.code) {
+    switch (state?.code) {
       case HttpStatus.unauthorized:
       case HttpStatus.forbidden:
         {
-          redirectLogin.call();
+          redirectLogin?.call();
           return;
         }
     }

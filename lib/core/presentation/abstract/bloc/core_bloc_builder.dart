@@ -9,7 +9,7 @@ class CoreUpgradeBlocBuilder<C extends Cubit<S?>, S extends CoreState>
     extends StatefulWidget {
   final Function(String? error, int? code)? error404Listener;
   final Function(String? error, int? code)? error500Listener;
-  final Function(String? error)? errorListener;
+  final Function(String error)? errorListener;
   final Function()? noInternerConnectionListener;
   final Function()? applicationExeptionListener;
   final Function()? redirectLoginListener;
@@ -103,7 +103,7 @@ class _CoreUpgradeBlocBuilderState<C extends Cubit<S?>, S extends CoreState>
           return makeBuildWhenListener(prevState, currentState,
               (context, state) {
             _widget = null;
-            return widget.buildWhen!.call(context!, state!);
+            return widget.buildWhen!.call(context, state!);
           }, () {
             _widget =
                 widget.notInternetConnectionBuilder!(context, currentState);
@@ -118,10 +118,10 @@ class _CoreUpgradeBlocBuilderState<C extends Cubit<S?>, S extends CoreState>
           handleErrorListener(
               context,
               state,
-              widget.errorListener!,
-              widget.redirectLoginListener!,
-              widget.noInternerConnectionListener!,
-              widget.applicationExeptionListener!,
+              widget.errorListener,
+              widget.redirectLoginListener,
+              widget.noInternerConnectionListener,
+              widget.applicationExeptionListener,
               disableNetworkErrorMessages: widget.disableNetworkErrorMessages);
           widget.listener?.call(context, state);
         },
