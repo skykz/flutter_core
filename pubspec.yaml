@@ -15,7 +15,6 @@ dependencies:
   equatable: 2.0.5
   get_it: 7.2.0
   intl: 0.18.0
-  location: 4.4.0
 
 
 dev_dependencies:
