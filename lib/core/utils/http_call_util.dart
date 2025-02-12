@@ -28,7 +28,7 @@ Future<T> safeApiCall<T>(
     final json = result.data;
     return jsonCall.call(json);
   } catch (ex) {
-    if (ex is DioError) {
+    if (ex is DioException) {
       final data = ex.response?.data;
       final message = _handleDioErrorType(ex, data);
       throw HttpRequestException<String>(
@@ -52,7 +52,7 @@ Future<void> safeApiCallVoid(
     await response;
     return;
   } catch (ex) {
-    if (ex is DioError) {
+    if (ex is DioException) {
       final data = ex.response?.data;
       final message = _handleDioErrorType(ex, data);
       throw HttpRequestException<String>(
@@ -80,7 +80,7 @@ Future<T> safeApiCallWithError<T, V>(
     final json = result.data;
     return jsonCall.call(json);
   } catch (ex) {
-    if (ex is DioError) {
+    if (ex is DioException) {
       final data = ex.response?.data;
       throw errorResponsePrinter.call(data, _handleDioErrorType(ex),
           ex.response?.statusCode ?? CoreConstant.negative);
@@ -137,12 +137,12 @@ Future<void> _makeThrowInternerConnection(
 // }
 
 /// обработчик ошибок по типу ошибко [Dio]
-/// [DioErrorType] ошибка
-String _handleDioErrorType(DioError ex, [Map<String, dynamic>? data]) {
+/// [DioExceptionType] ошибка
+String _handleDioErrorType(DioException ex, [Map<String, dynamic>? data]) {
   switch (ex.type) {
-    case DioErrorType.connectionTimeout:
-    case DioErrorType.sendTimeout:
-    case DioErrorType.receiveTimeout:
+    case DioExceptionType.connectionTimeout:
+    case DioExceptionType.sendTimeout:
+    case DioExceptionType.receiveTimeout:
       {
         return "Время таймаута истекло";
       }
